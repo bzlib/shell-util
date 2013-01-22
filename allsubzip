@@ -1,0 +1,35 @@
+#!/bin/sh
+
+LOG=".allzip.log"
+
+##################
+function if_error
+##################
+{
+if [[ $? -ne 0 ]]; then # check return code passed to function
+print "$1 TIME:$TIME" | tee -a $LOG # if rc > 0 then print error msg and quit
+exit $?
+fi
+}
+
+
+FILES="*"
+
+chflags -R nouchg $FILES
+if_error "unlock failed"
+
+for F in $FILES
+do
+    if [ -d "$F" ]
+    then
+        echo "cd $F/"
+        cd "$F/"
+        if_error "cd '$F/' failed"
+        CWD=`pwd`
+        if_error "pwd failed"
+        echo "allzip $CWD"
+        allzip
+        if_error "allzip failed"
+        cd ..
+    fi
+done
