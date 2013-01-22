@@ -1,0 +1,8 @@
+#!/bin/sh # -*- bash -*- -p
+
+LOG=".allzip.log"
+
+DEFAULT=2
+LEVEL=${1:-$DEFAULT}
+
+find . -mindepth $LEVEL -maxdepth $LEVEL -type d

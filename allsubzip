@@ -15,9 +15,6 @@ fi
 
 FILES="*"
 
-chflags -R nouchg $FILES
-if_error "unlock failed"
-
 for F in $FILES
 do
     if [ -d "$F" ]
