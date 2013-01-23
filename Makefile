@@ -8,3 +8,11 @@ all: $(LINKS)
 $(BIN_DIR)/%: $(SRC_DIR)/%
 	rm -f $@
 	ln -s $< $@
+
+$(LINKS): $(BIN_DIR)
+
+$(BIN_DIR):
+	mkdir -p $@
+
+
+
