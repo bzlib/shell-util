@@ -1,0 +1,28 @@
+#!/bin/sh
+
+LOG=".allzip.log"
+
+##################
+function if_error
+##################
+{
+if [[ $? -ne 0 ]]; then # check return code passed to function
+    echo "$1 TIME:$TIME" | tee -a $LOG # if rc > 0 then print error msg and quit
+    exit $?
+fi
+}
+
+# PDF permission removal
+# from http://www.cyberciti.biz/faq/removing-password-from-pdf-on-linux/
+# require ghostscript
+
+echo "converting file: $1"
+if [ -f "$1" ] 
+then
+    echo "converting..."
+    gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="$2" -c .setpdfwrite -f "$1"
+    if_error "conversion failed"
+else
+    echo "input file $1 does not exist"
+    exit 1
+fi
